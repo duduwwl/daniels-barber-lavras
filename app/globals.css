@@ -95,7 +95,13 @@ h1 em, h2 em, h3 em { color:var(--copper); font-weight:400; }
 .service-row { width:100%; display:grid; grid-template-columns:80px 1fr 100px 48px; align-items:center; gap:20px; min-height:116px; padding:18px 0; color:var(--ink); border:0; border-bottom:1px solid var(--line-dark); background:transparent; text-align:left; transition:.3s; }
 .service-index { color:#9d948a; font:italic 12px Georgia,serif; }
 .service-main { display:flex; flex-direction:column; gap:9px; }
-.service-main strong { font:400 clamp(23px,2.3vw,34px) Georgia,serif; }
+.service-main strong {
+  font-family:"Arial Narrow", "Roboto Condensed", Arial, sans-serif;
+  font-size:clamp(21px,2vw,30px);
+  font-weight:700;
+  line-height:1.1;
+  letter-spacing:-.035em;
+}
 .service-main small { color:#858078; font-size:12px; }
 .service-time { color:#766f67; font-size:9px; letter-spacing:.17em; }
 .service-arrow { display:grid; place-items:center; width:42px; height:42px; border:1px solid #b4aa9e; border-radius:50%; transition:.3s; }
