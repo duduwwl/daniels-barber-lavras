@@ -204,7 +204,7 @@ export default function Home() {
       <section className="manifesto">
         <div className="manifesto-art" aria-hidden="true">
           <div className="blade"><span /><span /><span /></div>
-          <p>DESDE<br /><strong>2024</strong></p>
+          <p>FEITO EM<br /><strong>LAVRAS</strong></p>
         </div>
         <div className="manifesto-copy">
           <p className="eyebrow"><span /> Mais que um corte</p>
@@ -333,7 +333,7 @@ export default function Home() {
       </section>
 
       <section className="contact-section" id="contato">
-        <div className="contact-place"><span>LAVRAS</span><strong>MG</strong><i>21°14&apos;43&quot;S · 44°59&apos;59&quot;O</i></div>
+        <div className="contact-place"><span>LAVRAS</span><strong>MG</strong><i>MINAS GERAIS · BRASIL</i></div>
         <div className="contact-copy">
           <p className="eyebrow dark"><span /> Onde o estilo acontece</p>
           <h2>No coração de<br /><em>Lavras.</em></h2>
