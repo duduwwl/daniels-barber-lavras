@@ -39,6 +39,7 @@ export default function BookingExperience() {
   const [phone, setPhone] = useState('');
   const [confirmed, setConfirmed] = useState(false);
   const [formError, setFormError] = useState('');
+  const [dateError, setDateError] = useState('');
 
   const selectedService = services.find((service) => service.id === serviceId)!;
   const selectedBarber = barbers.find((barber) => barber.id === barberId)!;
@@ -57,7 +58,7 @@ export default function BookingExperience() {
     const result: Date[] = [];
     const cursor = new Date();
     cursor.setHours(12, 0, 0, 0);
-    while (result.length < 12) {
+    while (result.length < 60) {
       if (cursor.getDay() !== 0) result.push(new Date(cursor));
       cursor.setDate(cursor.getDate() + 1);
     }
@@ -93,6 +94,16 @@ export default function BookingExperience() {
   function chooseBarber(id: string) {
     setBarberId(id);
     document.querySelector('#reservar')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function chooseDate(value: string) {
+    if (!value) return;
+    if (parseLocalDate(value).getDay() === 0) {
+      setDateError('A barbearia não abre aos domingos. Escolha outra data.');
+      return;
+    }
+    setDateError('');
+    setDate(value);
   }
 
   function confirmBooking(event: FormEvent) {
@@ -196,10 +207,17 @@ export default function BookingExperience() {
               </fieldset>
               <fieldset>
                 <legend><b>03</b> Escolha o dia</legend>
+                <div className="date-picker-row">
+                  <label>
+                    <span>ABRIR CALENDÁRIO COMPLETO</span>
+                    <input type="date" min={toIsoDate(new Date())} value={date} onChange={(event) => chooseDate(event.target.value)} aria-label="Escolher qualquer data futura" />
+                  </label>
+                  <p>{dateError || 'Disponível de segunda a sábado. Use o calendário ou role as sugestões abaixo.'}</p>
+                </div>
                 <div className="date-strip">
                   {nextDates.map((item) => {
                     const iso = toIsoDate(item);
-                    return <button type="button" key={iso} className={date === iso ? 'active' : ''} onClick={() => setDate(iso)}><small>{weekDays[item.getDay()]}</small><strong>{String(item.getDate()).padStart(2, '0')}</strong><span>{monthNames[item.getMonth()]}</span></button>;
+                    return <button type="button" key={iso} className={date === iso ? 'active' : ''} onClick={() => chooseDate(iso)}><small>{weekDays[item.getDay()]}</small><strong>{String(item.getDate()).padStart(2, '0')}</strong><span>{monthNames[item.getMonth()]}</span></button>;
                   })}
                 </div>
               </fieldset>
