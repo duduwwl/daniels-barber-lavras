@@ -68,6 +68,8 @@ h1 em, h2 em, h3 em { color:var(--copper); font-weight:400; }
 .hero-meta span { font:400 12px Georgia,serif; }
 .hero-visual { position:relative; z-index:1; display:flex; align-items:center; justify-content:center; padding-top:86px; border-left:1px solid var(--line-light); animation:hero-fade 1.2s .2s both; }
 .arch { position:relative; width:min(68%,430px); aspect-ratio:.63; border:1px solid rgba(231,222,207,.32); border-radius:220px 220px 0 0; overflow:hidden; background:linear-gradient(120deg,rgba(54,45,38,.3),rgba(12,12,10,.8)); box-shadow:inset 0 0 80px rgba(0,0,0,.55); }
+.hero-photo { width:100%; height:100%; object-fit:cover; object-position:52% center; filter:grayscale(1) contrast(1.04); animation:hero-photo-drift 12s ease-in-out infinite alternate; }
+.photo-shade { position:absolute; inset:0; background:linear-gradient(180deg,transparent 52%,rgba(0,0,0,.62)); pointer-events:none; }
 .arch:before { content:""; position:absolute; inset:8%; border:1px solid rgba(185,130,86,.2); border-radius:180px 180px 0 0; }
 .arch-light { position:absolute; width:50%; height:55%; top:4%; left:25%; border-radius:50%; background:radial-gradient(ellipse,rgba(205,153,107,.22),transparent 67%); filter:blur(8px); animation:glow 3s ease-in-out infinite; }
 .chair { position:absolute; left:19%; right:19%; bottom:11%; height:47%; filter:drop-shadow(0 18px 25px rgba(0,0,0,.7)); }
@@ -252,6 +254,7 @@ footer { display:grid; grid-template-columns:1.2fr .8fr .8fr; gap:50px; padding:
 @keyframes hero-rise { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:none} }
 @keyframes hero-fade { from{opacity:0;transform:scale(1.04)} to{opacity:1;transform:none} }
 @keyframes glow { 0%,100%{opacity:.55;transform:scale(.92)} 50%{opacity:1;transform:scale(1.06)} }
+@keyframes hero-photo-drift { from{transform:scale(1.015) translateY(0)} to{transform:scale(1.075) translateY(-1.5%)} }
 @keyframes pulse { 0%,100%{transform:scaleY(.45);transform-origin:top;opacity:.4}50%{transform:scaleY(1);opacity:1} }
 @keyframes marquee { to{transform:translateX(-50%)} }
 @keyframes success-pop { from{opacity:0;transform:scale(.4) rotate(-30deg)} to{opacity:1;transform:none} }
@@ -662,4 +665,192 @@ footer { background:#080808; }
 
 @media (max-width:560px) {
   .date-picker-row { grid-template-columns:1fr; align-items:start; }
+}
+
+/* Refined editorial scale and official identity */
+body, button, input {
+  font-family:"Helvetica Neue", "Segoe UI", Arial, sans-serif;
+  font-weight:400;
+  font-variant-numeric:tabular-nums lining-nums;
+}
+h1, h2, h3,
+.brand strong,
+.hero-meta span,
+.booking-hours strong,
+.booking-summary strong,
+.footer-hours span,
+.barber-info strong,
+.choice-grid strong,
+legend {
+  font-family:"Helvetica Neue", "Segoe UI", Arial, sans-serif;
+  font-weight:400;
+}
+.navbar { height:78px; }
+.navbar.is-scrolled { height:66px; }
+.brand-mark {
+  object-fit:cover;
+  border-color:#555;
+  background:#111;
+}
+.brand:hover .brand-mark { transform:scale(1.05); background:#111; }
+.brand strong { font-size:14px; font-weight:600; }
+.navbar .main-nav a { font-size:9px; font-weight:500; }
+.navbar .nav-cta strong { font-size:9px; font-weight:600; }
+
+.hero { grid-template-columns:58% 42%; }
+.hero-copy { padding-top:128px; }
+.hero-copy h1 {
+  max-width:760px;
+  font-size:clamp(48px,5.9vw,88px);
+  font-weight:300;
+  line-height:.92;
+  letter-spacing:-.05em;
+}
+.hero-text {
+  max-width:560px;
+  margin:25px 0 30px;
+  color:#bdbdbd;
+  font-size:13px;
+  line-height:1.7;
+}
+.hero-actions { gap:22px; }
+.button-primary { font-size:9px; font-weight:600; }
+.hero-meta { margin-top:38px; gap:34px; }
+.hero-meta strong { font-size:7px; font-weight:600; }
+.hero-meta span { font-size:11px; font-weight:500; letter-spacing:.01em; }
+.hero-visual { padding-top:78px; }
+.arch {
+  width:min(76%,440px);
+  aspect-ratio:4/5;
+  border-radius:220px 220px 18px 18px;
+  background:#111;
+}
+.arch:before { display:none; }
+.hero-photo { display:block; object-position:52% 50%; }
+.visual-caption { bottom:4%; font-family:"Helvetica Neue", "Segoe UI", Arial, sans-serif; font-size:9px; font-style:normal; line-height:1.55; letter-spacing:.03em; }
+
+.manifesto { min-height:720px; }
+.manifesto-art { background:radial-gradient(circle at 50% 45%,#2b2b2b,#090909 66%); }
+.manifesto-art:before { width:62%; }
+.manifesto-art:after { width:84%; }
+.manifesto-logo {
+  position:relative;
+  z-index:2;
+  width:min(42%,290px);
+  aspect-ratio:1;
+  object-fit:cover;
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:50%;
+  box-shadow:0 32px 70px rgba(0,0,0,.5);
+  animation:logo-float 5s ease-in-out infinite;
+}
+.manifesto-art p { display:flex; flex-direction:column; gap:8px; line-height:1.2; }
+.manifesto-art p span { color:#777; font-size:7px; font-weight:600; }
+.manifesto-art p strong { font-family:"Helvetica Neue", "Segoe UI", Arial, sans-serif; font-size:18px; font-weight:400; font-style:normal; letter-spacing:.06em; }
+.manifesto h2,
+.booking-intro h2,
+.contact-copy h2,
+.contact-profile h2,
+.section-heading h2 {
+  font-family:"Helvetica Neue", "Segoe UI", Arial, sans-serif;
+  font-size:clamp(40px,4.8vw,70px);
+  font-weight:300;
+  line-height:.98;
+  letter-spacing:-.045em;
+}
+.manifesto-copy > p:not(.eyebrow),
+.booking-intro > p:not(.eyebrow),
+.contact-copy > p:not(.eyebrow),
+.section-heading > p {
+  font-family:"Helvetica Neue", "Segoe UI", Arial, sans-serif;
+  font-size:13px;
+  font-weight:400;
+  line-height:1.75;
+}
+.manifesto-points strong { font-family:"Helvetica Neue", "Segoe UI", Arial, sans-serif; font-size:15px; font-weight:500; }
+.manifesto-points small { font-size:10px; }
+
+.contact-section { min-height:680px; }
+.contact-place.contact-profile {
+  align-items:flex-start;
+  padding:9vw;
+  color:#fff;
+  background:#0b0b0b;
+}
+.contact-place.contact-profile:before,
+.contact-place.contact-profile:after { display:none; }
+.contact-profile .eyebrow { position:relative; z-index:2; }
+.contact-profile h2 { position:relative; z-index:2; margin:0 0 55px; color:#fff; }
+.contact-details { position:relative; z-index:2; width:100%; border-top:1px solid rgba(255,255,255,.2); }
+.contact-details a { display:grid; grid-template-columns:105px 1fr auto; align-items:center; gap:16px; padding:20px 0; border-bottom:1px solid rgba(255,255,255,.16); transition:.25s; }
+.contact-details a:hover { padding-left:10px; background:rgba(255,255,255,.04); }
+.contact-details small { color:#777; font-size:7px; font-weight:600; letter-spacing:.16em; }
+.contact-details strong { font-size:13px; font-weight:400; }
+.contact-details span { color:#fff; font:400 16px/1 "Helvetica Neue", Arial, sans-serif; }
+.contact-copy { position:relative; }
+.contact-logo { width:76px; height:76px; margin-bottom:38px; object-fit:cover; border-radius:50%; filter:grayscale(1); }
+
+.booking-page-hero h1 { font-size:clamp(48px,6vw,86px); font-weight:300; line-height:.94; }
+.team-section { padding-top:105px; }
+.barber-info strong { font-size:30px; font-weight:300; }
+.barber-number { font-family:"Helvetica Neue", "Segoe UI", Arial, sans-serif; font-weight:300; }
+.booking-section { grid-template-columns:35% 65%; padding-top:110px; }
+.booking-intro h2 { font-size:clamp(42px,4.8vw,68px); }
+.booking-hours strong,
+.time-grid button,
+.calendar-grid button { font-variant-numeric:tabular-nums lining-nums; }
+.booking-card-head span,
+.choice-grid strong,
+legend { font-weight:500; }
+.choice-grid strong { font-size:12px; }
+
+.calendar-toolbar { grid-template-columns:minmax(220px,.72fr) 1fr; }
+.calendar-panel { overflow:hidden; border:1px solid #c7c7c2; background:#f5f5f2; }
+.calendar-month-nav { display:grid; grid-template-columns:44px 1fr 44px; align-items:center; min-height:48px; border-bottom:1px solid #d5d5d0; }
+.calendar-month-nav strong { color:#111; font-size:13px; font-weight:500; text-align:center; }
+.calendar-month-nav button { height:100%; border:0; background:transparent; color:#111; font-size:16px; transition:.2s; }
+.calendar-month-nav button:hover:not(:disabled) { color:#fff; background:#111; }
+.calendar-month-nav button:disabled { color:#bbb; cursor:not-allowed; }
+.calendar-weekdays,
+.calendar-grid { display:grid; grid-template-columns:repeat(7,1fr); }
+.calendar-weekdays { border-bottom:1px solid #d5d5d0; }
+.calendar-weekdays span { padding:10px 3px; color:#777; font-size:7px; font-weight:600; letter-spacing:.12em; text-align:center; }
+.calendar-grid button,
+.calendar-blank { min-height:48px; border:0; border-right:1px solid #dfdfda; border-bottom:1px solid #dfdfda; background:transparent; }
+.calendar-grid button { color:#222; font-size:11px; font-weight:500; transition:.18s; }
+.calendar-grid button:nth-child(7n) { border-right:0; }
+.calendar-grid button:hover:not(:disabled),
+.calendar-grid button.active { color:#fff; background:#111; }
+.calendar-grid button:disabled { color:#c1c1bd; background:#ecece8; cursor:not-allowed; text-decoration:line-through; }
+
+@keyframes logo-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+@media (prefers-reduced-motion:reduce) {
+  .hero-photo,
+  .manifesto-logo { animation:none; }
+}
+
+@media (max-width:820px) {
+  .hero { grid-template-columns:1fr; }
+  .hero-copy { padding:120px 22px 70px; }
+  .hero-copy h1 { font-size:clamp(46px,13vw,72px); }
+  .hero-meta { display:grid; grid-template-columns:1fr 1fr; }
+  .hero-meta div:last-child { grid-column:1/-1; }
+  .hero-visual { position:relative; inset:auto; min-height:660px; padding:45px 0 80px; opacity:1; border-top:1px solid var(--line-light); }
+  .arch { width:min(78%,430px); }
+  .manifesto-art { min-height:540px; }
+  .manifesto-logo { width:min(44%,230px); }
+  .contact-section { grid-template-columns:1fr; }
+  .contact-place.contact-profile,
+  .contact-copy { min-height:auto; padding:85px 8vw; }
+  .booking-section { grid-template-columns:1fr; }
+  .booking-intro { position:static; }
+}
+
+@media (max-width:560px) {
+  .hero-meta { gap:24px; }
+  .contact-details a { grid-template-columns:86px 1fr auto; }
+  .calendar-toolbar { grid-template-columns:1fr; }
+  .calendar-grid button,
+  .calendar-blank { min-height:42px; }
 }

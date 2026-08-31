@@ -40,6 +40,10 @@ export default function BookingExperience() {
   const [confirmed, setConfirmed] = useState(false);
   const [formError, setFormError] = useState('');
   const [dateError, setDateError] = useState('');
+  const [calendarMonth, setCalendarMonth] = useState(() => {
+    const today = new Date();
+    return new Date(today.getFullYear(), today.getMonth(), 1);
+  });
 
   const selectedService = services.find((service) => service.id === serviceId)!;
   const selectedBarber = barbers.find((barber) => barber.id === barberId)!;
@@ -54,16 +58,21 @@ export default function BookingExperience() {
     setConfirmed(false);
   }, [serviceId, barberId, date]);
 
-  const nextDates = useMemo(() => {
-    const result: Date[] = [];
-    const cursor = new Date();
-    cursor.setHours(12, 0, 0, 0);
-    while (result.length < 60) {
-      if (cursor.getDay() !== 0) result.push(new Date(cursor));
-      cursor.setDate(cursor.getDate() + 1);
-    }
-    return result;
-  }, []);
+  const calendarDays = useMemo(() => {
+    const year = calendarMonth.getFullYear();
+    const month = calendarMonth.getMonth();
+    const firstWeekday = new Date(year, month, 1).getDay();
+    const lastDay = new Date(year, month + 1, 0).getDate();
+    return [
+      ...Array.from({ length: firstWeekday }, () => null),
+      ...Array.from({ length: lastDay }, (_, index) => new Date(year, month, index + 1, 12)),
+    ];
+  }, [calendarMonth]);
+
+  const calendarLabel = useMemo(() => {
+    const label = new Intl.DateTimeFormat('pt-BR', { month: 'long', year: 'numeric' }).format(calendarMonth);
+    return label.charAt(0).toUpperCase() + label.slice(1);
+  }, [calendarMonth]);
 
   const times = useMemo(() => {
     if (!date) return [];
@@ -85,7 +94,7 @@ export default function BookingExperience() {
       text: `${selectedService.name} — Daniel's Barber`,
       dates: `${calendarStamp(date, time)}/${calendarStamp(date, time, selectedService.duration)}`,
       details: `Atendimento com ${selectedBarber.name}. Chegue 5 minutos antes do horário.`,
-      location: 'Daniel’s Barber — Lavras, MG',
+      location: 'Daniel’s Barber — Avenida Álvaro Augusto Leite, 657',
       ctz: 'America/Sao_Paulo',
     });
     return `https://calendar.google.com/calendar/render?${params.toString()}`;
@@ -104,6 +113,12 @@ export default function BookingExperience() {
     }
     setDateError('');
     setDate(value);
+    const selected = parseLocalDate(value);
+    setCalendarMonth(new Date(selected.getFullYear(), selected.getMonth(), 1));
+  }
+
+  function moveCalendar(direction: number) {
+    setCalendarMonth((current) => new Date(current.getFullYear(), current.getMonth() + direction, 1));
   }
 
   function confirmBooking(event: FormEvent) {
@@ -124,7 +139,7 @@ export default function BookingExperience() {
       `DTEND;TZID=America/Sao_Paulo:${calendarStamp(date, time, selectedService.duration)}`,
       `SUMMARY:${selectedService.name} — Daniel's Barber`,
       `DESCRIPTION:Atendimento com ${selectedBarber.name}. Chegue 5 minutos antes do horário.`,
-      'LOCATION:Daniel’s Barber — Lavras\, MG', 'END:VEVENT', 'END:VCALENDAR',
+      'LOCATION:Daniel’s Barber — Avenida Álvaro Augusto Leite\, 657', 'END:VEVENT', 'END:VCALENDAR',
     ].join('\r\n');
     const url = URL.createObjectURL(new Blob([contents], { type: 'text/calendar;charset=utf-8' }));
     const link = document.createElement('a');
@@ -170,8 +185,8 @@ export default function BookingExperience() {
       <section className="booking-section" id="reservar">
         <div className="booking-intro">
           <p className="eyebrow dark"><span /> Agendamento online</p>
-          <h2>Sua cadeira.<br /><em>Seu horário.</em></h2>
-          <p>Escolha o serviço, o profissional e o melhor horário. Ao finalizar, adicione o compromisso ao Google Agenda, Apple Calendar ou Outlook.</p>
+          <h2>Seu horário.<br /><em>Seu estilo, bem cuidado.</em></h2>
+          <p>Escolha o serviço, Daniel ou Vinícius e um horário disponível. Depois, salve o compromisso no Google Agenda, Apple Calendar ou Outlook.</p>
           <div className="booking-hours">
             <div><span>Segunda — sexta</span><strong>08:30 — 18:30</strong></div>
             <div><span>Sábado</span><strong>08:30 — 14:00</strong></div>
@@ -182,7 +197,7 @@ export default function BookingExperience() {
         <form className="booking-card" onSubmit={confirmBooking}>
           {!confirmed ? (
             <>
-              <div className="booking-card-head"><span>RESERVAR CADEIRA</span><small>Lavras · MG</small></div>
+              <div className="booking-card-head"><span>RESERVAR HORÁRIO</span><small>Daniel&apos;s Barber</small></div>
               <fieldset>
                 <legend><b>01</b> Escolha o serviço</legend>
                 <div className="choice-grid service-choices">
@@ -207,18 +222,34 @@ export default function BookingExperience() {
               </fieldset>
               <fieldset>
                 <legend><b>03</b> Escolha o dia</legend>
-                <div className="date-picker-row">
+                <div className="date-picker-row calendar-toolbar">
                   <label>
                     <span>ABRIR CALENDÁRIO COMPLETO</span>
                     <input type="date" min={toIsoDate(new Date())} value={date} onChange={(event) => chooseDate(event.target.value)} aria-label="Escolher qualquer data futura" />
                   </label>
-                  <p>{dateError || 'Disponível de segunda a sábado. Use o calendário ou role as sugestões abaixo.'}</p>
+                  <p>{dateError || 'Escolha qualquer data futura. Domingos aparecem desativados.'}</p>
                 </div>
-                <div className="date-strip">
-                  {nextDates.map((item) => {
-                    const iso = toIsoDate(item);
-                    return <button type="button" key={iso} className={date === iso ? 'active' : ''} onClick={() => chooseDate(iso)}><small>{weekDays[item.getDay()]}</small><strong>{String(item.getDate()).padStart(2, '0')}</strong><span>{monthNames[item.getMonth()]}</span></button>;
-                  })}
+                <div className="calendar-panel">
+                  <div className="calendar-month-nav">
+                    <button type="button" onClick={() => moveCalendar(-1)} disabled={calendarMonth <= new Date(new Date().getFullYear(), new Date().getMonth(), 1)} aria-label="Mês anterior">←</button>
+                    <strong>{calendarLabel}</strong>
+                    <button type="button" onClick={() => moveCalendar(1)} aria-label="Próximo mês">→</button>
+                  </div>
+                  <div className="calendar-weekdays" aria-hidden="true">
+                    {weekDays.map((day) => <span key={day}>{day}</span>)}
+                  </div>
+                  <div className="calendar-grid">
+                    {calendarDays.map((item, index) => {
+                      if (!item) return <span className="calendar-blank" key={`blank-${index}`} />;
+                      const iso = toIsoDate(item);
+                      const unavailable = item.getDay() === 0 || iso < toIsoDate(new Date());
+                      return (
+                        <button type="button" key={iso} disabled={unavailable} className={date === iso ? 'active' : ''} onClick={() => chooseDate(iso)} aria-label={`${weekDays[item.getDay()]}, ${item.getDate()} de ${monthNames[item.getMonth()]}`}>
+                          {String(item.getDate()).padStart(2, '0')}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               </fieldset>
               <fieldset>
