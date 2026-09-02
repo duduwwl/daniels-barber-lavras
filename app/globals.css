@@ -126,7 +126,13 @@ h1 em, h2 em, h3 em { color:var(--copper); font-weight:400; }
 .manifesto-copy > p:not(.eyebrow) { max-width:590px; margin:32px 0 50px; color:#99938a; font:15px/1.85 Georgia,serif; }
 .manifesto-points { border-top:1px solid var(--line-light); }
 .manifesto-points > div { display:grid; grid-template-columns:45px 1fr; gap:18px; padding:23px 0; border-bottom:1px solid var(--line-light); }
-.manifesto-points b { color:var(--copper); font:italic 10px Georgia,serif; }
+.manifesto-points b {
+  padding-top:1px;
+  color:var(--copper);
+  font:italic 16px/1 "Bodoni MT", "Times New Roman", Georgia, serif;
+  font-weight:400;
+  letter-spacing:.02em;
+}
 .manifesto-points span { display:flex; flex-direction:column; gap:7px; }
 .manifesto-points strong { font:400 18px Georgia,serif; }
 .manifesto-points small { color:#77736d; font-size:11px; }
