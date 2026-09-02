@@ -37,17 +37,17 @@ export default function Home() {
 
       <section className="manifesto" id="barbearia">
         <div className="manifesto-art">
-          <img className="manifesto-logo" src="/logo-instagram.jpg" alt="Logo oficial Daniel's Barber" />
+          <img className="manifesto-logo" src="/logo-hd.png" alt="Logo oficial Daniel's Barber" />
           <p><span>IDENTIDADE OFICIAL</span><strong>DANIEL&apos;S BARBER</strong></p>
         </div>
         <div className="manifesto-copy">
           <p className="eyebrow"><span /> Mais que um corte</p>
-          <h2>Bom atendimento.<br /><em>Sem personagem.</em></h2>
+          <h2>Técnica apurada.<br /><em>Consistência em cada corte.</em></h2>
           <p>Uma barbearia de verdade: conversa direta, técnica apurada e atenção ao resultado. Do corte infantil ao degradê e à barba, cada serviço parte do que combina com você.</p>
           <div className="manifesto-points">
-            <div><b>01</b><span><strong>Atendimento personalizado</strong><small>Seu rosto, rotina e estilo guiam cada escolha.</small></span></div>
-            <div><b>02</b><span><strong>Precisão nos detalhes</strong><small>Acabamento impecável em todos os ângulos.</small></span></div>
-            <div><b>03</b><span><strong>Ambiente preparado</strong><small>Conforto, pontualidade e cuidado do início ao fim.</small></span></div>
+            <div><b>01</b><span><strong>Diagnóstico de estilo e proporção</strong><small>Formato do rosto, rotina e preferência orientam cada decisão.</small></span></div>
+            <div><b>02</b><span><strong>Execução técnica e acabamento limpo</strong><small>Linhas, transições e contornos revisados antes da finalização.</small></span></div>
+            <div><b>03</b><span><strong>Pontualidade e padrão de atendimento</strong><small>Agenda organizada, estação higienizada e atenção do início ao fim.</small></span></div>
           </div>
         </div>
       </section>
@@ -60,13 +60,6 @@ export default function Home() {
             <a href="https://www.instagram.com/danielsbarber_04/" target="_blank" rel="noreferrer"><small>INSTAGRAM</small><strong>@danielsbarber_04</strong><span>↗</span></a>
             <a href="https://wa.me/5535998416060" target="_blank" rel="noreferrer"><small>WHATSAPP</small><strong>(35) 99841-6060</strong><span>↗</span></a>
           </div>
-        </div>
-        <div className="contact-copy">
-          <img className="contact-logo" src="/logo-instagram.jpg" alt="Daniel's Barber" />
-          <p className="eyebrow dark"><span /> Informação direta</p>
-          <h2>Chegue no horário.<br /><em>Saia alinhado.</em></h2>
-          <p>Escolha o serviço, Daniel ou Vinícius e o melhor momento para você. O agendamento fica pronto em poucos passos e pode ser salvo no seu calendário.</p>
-          <a className="dark-button" href="/agendar#reservar">Reservar horário <span>↗</span></a>
         </div>
       </section>
 

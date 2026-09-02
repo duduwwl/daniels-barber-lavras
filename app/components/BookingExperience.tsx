@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { ArrowLeft, ArrowRight, CalendarDays, Check, Clock3, Scissors, UserRound } from 'lucide-react';
 import { barbers, services } from '../data';
 import Footer from './Footer';
 import Navbar from './Navbar';
@@ -197,31 +198,20 @@ export default function BookingExperience() {
         <form className="booking-card" onSubmit={confirmBooking}>
           {!confirmed ? (
             <>
-              <div className="booking-card-head"><span>RESERVAR HORÁRIO</span><small>Daniel&apos;s Barber</small></div>
+              <div className="booking-card-head"><span><CalendarDays size={15} aria-hidden="true" /> RESERVAR HORÁRIO</span><small>Daniel&apos;s Barber</small></div>
               <fieldset>
-                <legend><b>01</b> Escolha o serviço</legend>
+                <legend><span className="step-icon"><Scissors size={14} aria-hidden="true" /></span> Escolha o serviço</legend>
                 <div className="choice-grid service-choices">
                   {services.map((service) => (
                     <label key={service.id} className={serviceId === service.id ? 'checked' : ''}>
                       <input type="radio" name="service" value={service.id} checked={serviceId === service.id} onChange={() => setServiceId(service.id)} />
-                      <span><strong>{service.short}</strong><small>{service.duration} min</small></span><i>✓</i>
+                      <span><strong>{service.short}</strong><small>{service.duration} min</small></span><i><Check size={15} aria-hidden="true" /></i>
                     </label>
                   ))}
                 </div>
               </fieldset>
               <fieldset>
-                <legend><b>02</b> Escolha o barbeiro</legend>
-                <div className="choice-grid barber-choices">
-                  {barbers.map((barber) => (
-                    <label key={barber.id} className={barberId === barber.id ? 'checked' : ''}>
-                      <input type="radio" name="barber" value={barber.id} checked={barberId === barber.id} onChange={() => setBarberId(barber.id)} />
-                      <span className="mini-avatar">{barber.initials}</span><span><strong>{barber.name}</strong><small>{barber.role}</small></span><i>✓</i>
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
-              <fieldset>
-                <legend><b>03</b> Escolha o dia</legend>
+                <legend><span className="step-icon"><CalendarDays size={14} aria-hidden="true" /></span> Escolha o dia</legend>
                 <div className="date-picker-row calendar-toolbar">
                   <label>
                     <span>ABRIR CALENDÁRIO COMPLETO</span>
@@ -231,9 +221,9 @@ export default function BookingExperience() {
                 </div>
                 <div className="calendar-panel">
                   <div className="calendar-month-nav">
-                    <button type="button" onClick={() => moveCalendar(-1)} disabled={calendarMonth <= new Date(new Date().getFullYear(), new Date().getMonth(), 1)} aria-label="Mês anterior">←</button>
+                    <button type="button" onClick={() => moveCalendar(-1)} disabled={calendarMonth <= new Date(new Date().getFullYear(), new Date().getMonth(), 1)} aria-label="Mês anterior"><ArrowLeft size={16} aria-hidden="true" /></button>
                     <strong>{calendarLabel}</strong>
-                    <button type="button" onClick={() => moveCalendar(1)} aria-label="Próximo mês">→</button>
+                    <button type="button" onClick={() => moveCalendar(1)} aria-label="Próximo mês"><ArrowRight size={16} aria-hidden="true" /></button>
                   </div>
                   <div className="calendar-weekdays" aria-hidden="true">
                     {weekDays.map((day) => <span key={day}>{day}</span>)}
@@ -253,11 +243,11 @@ export default function BookingExperience() {
                 </div>
               </fieldset>
               <fieldset>
-                <legend><b>04</b> Escolha o horário</legend>
+                <legend><span className="step-icon"><Clock3 size={14} aria-hidden="true" /></span> Escolha o horário</legend>
                 {date ? <div className="time-grid">{times.map((slot) => <button type="button" key={slot} className={time === slot ? 'active' : ''} onClick={() => setTime(slot)}>{slot}</button>)}</div> : <p className="empty-slots">Selecione um dia para ver os horários disponíveis.</p>}
               </fieldset>
               <fieldset>
-                <legend><b>05</b> Seus dados</legend>
+                <legend><span className="step-icon"><UserRound size={14} aria-hidden="true" /></span> Seus dados</legend>
                 <div className="client-fields">
                   <label><span>Seu nome</span><input value={name} onChange={(event) => setName(event.target.value)} placeholder="Como podemos te chamar?" autoComplete="name" /></label>
                   <label><span>WhatsApp</span><input value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="(35) 99999-9999" inputMode="tel" autoComplete="tel" /></label>
@@ -265,7 +255,7 @@ export default function BookingExperience() {
               </fieldset>
               <div className="booking-summary">
                 <div><small>SEU AGENDAMENTO</small><strong>{selectedService.short} com {selectedBarber.name}</strong><span>{date ? formatLongDate(date) : 'Escolha uma data'}{time ? `, às ${time}` : ''}</span></div>
-                <button type="submit">Confirmar horário <span>→</span></button>
+                <button type="submit">Confirmar horário <ArrowRight size={16} aria-hidden="true" /></button>
               </div>
               {formError && <p className="form-error" role="alert">{formError}</p>}
             </>
