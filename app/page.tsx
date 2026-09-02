@@ -38,7 +38,7 @@ export default function Home() {
 
       <section className="manifesto" id="barbearia">
         <div className="manifesto-art">
-          <img className="manifesto-logo" src={sitePath('/logo-hd.png')} alt="Logo oficial Daniel's Barber" />
+          <img className="manifesto-logo" src={sitePath('/logo-crisp.png')} alt="Logo oficial Daniel's Barber" />
           <p><span>IDENTIDADE OFICIAL</span><strong>DANIEL&apos;S BARBER</strong></p>
         </div>
         <div className="manifesto-copy">

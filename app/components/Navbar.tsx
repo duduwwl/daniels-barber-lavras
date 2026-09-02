@@ -24,7 +24,7 @@ export default function Navbar() {
   return (
     <header className={`navbar ${scrolled ? 'is-scrolled' : ''}`}>
       <a className="brand" href={sitePath('/#inicio')} aria-label="Daniel's Barber — início" onClick={() => setMenuOpen(false)}>
-        <img className="brand-mark" src={sitePath('/logo-hd.png')} alt="" aria-hidden="true" />
+        <img className="brand-mark" src={sitePath('/logo-crisp.png')} alt="" aria-hidden="true" />
         <span><strong>DANIEL&apos;S</strong><small>BARBER · LAVRAS</small></span>
       </a>
 
