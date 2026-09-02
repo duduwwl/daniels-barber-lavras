@@ -1,5 +1,6 @@
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
+import { sitePath } from './site-path';
 
 export default function Home() {
   return (
@@ -13,7 +14,7 @@ export default function Home() {
           <h1>Corte bem feito.<br /><em>Presença que fica.</em></h1>
           <p className="hero-text">Na Daniel&apos;s, o atendimento começa entendendo seu estilo. Degradê, barba e acabamento executados com atenção — sem pressa no corte e sem complicação para agendar.</p>
           <div className="hero-actions">
-            <a className="button-primary" href="/agendar#reservar">Reservar horário <span>→</span></a>
+            <a className="button-primary" href={sitePath('/agendar#reservar')}>Reservar horário <span>→</span></a>
           </div>
           <div className="hero-meta">
             <div><strong>SEG — SEX</strong><span>08:30 — 18:30</span></div>
@@ -23,7 +24,7 @@ export default function Home() {
         </div>
         <div className="hero-visual" aria-label="Barbeiro realizando um corte de precisão">
           <div className="arch">
-            <img className="hero-photo" src="/hero-barber.png" alt="Barbeiro realizando um corte com máquina em um cliente" />
+            <img className="hero-photo" src={sitePath('/hero-barber.png')} alt="Barbeiro realizando um corte com máquina em um cliente" />
             <div className="photo-shade" aria-hidden="true" />
           </div>
           <p className="visual-caption">Técnica, conversa e acabamento.<br />Do jeito que um bom corte deve ser.</p>
@@ -37,7 +38,7 @@ export default function Home() {
 
       <section className="manifesto" id="barbearia">
         <div className="manifesto-art">
-          <img className="manifesto-logo" src="/logo-hd.png" alt="Logo oficial Daniel's Barber" />
+          <img className="manifesto-logo" src={sitePath('/logo-hd.png')} alt="Logo oficial Daniel's Barber" />
           <p><span>IDENTIDADE OFICIAL</span><strong>DANIEL&apos;S BARBER</strong></p>
         </div>
         <div className="manifesto-copy">
