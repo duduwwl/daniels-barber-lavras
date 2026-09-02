@@ -1102,3 +1102,121 @@ legend { gap:11px; font-size:15px; }
   }
   .manifesto-art p { right:7%; }
 }
+
+/* Management workspace */
+.management-page,
+.management-login { min-height:100svh; color:#efefeb; background:#0b0c0e; }
+.management-topbar {
+  position:sticky; z-index:20; top:0;
+  display:flex; align-items:center; justify-content:space-between;
+  min-height:76px; padding:0 4vw;
+  border-bottom:1px solid rgba(255,255,255,.12);
+  background:rgba(11,12,14,.94); backdrop-filter:blur(18px);
+}
+.management-brand { display:flex; align-items:center; gap:14px; }
+.management-brand img { width:44px; height:44px; border-radius:50%; box-shadow:0 0 0 1px rgba(255,255,255,.18); }
+.management-brand span { display:flex; flex-direction:column; gap:3px; }
+.management-brand strong { font-size:14px; letter-spacing:.08em; }
+.management-brand small { color:#85878b; font-size:7px; letter-spacing:.22em; }
+.management-topbar > div { display:flex; align-items:center; gap:28px; }
+.management-topbar > div > a { display:flex; align-items:center; gap:8px; color:#b3b4b6; font-size:9px; letter-spacing:.12em; text-transform:uppercase; }
+.management-live { display:flex; align-items:center; gap:8px; color:#a8aaa8; font-size:8px; letter-spacing:.12em; text-transform:uppercase; }
+.management-live i { width:7px; height:7px; border-radius:50%; background:#79a77b; box-shadow:0 0 0 4px rgba(121,167,123,.12); }
+.management-shell { width:min(1500px,100%); margin:auto; padding:62px 4vw 90px; }
+.management-heading { display:grid; grid-template-columns:1.1fr .6fr; align-items:end; gap:7vw; margin-bottom:46px; }
+.management-kicker { margin:0 0 17px; color:#9b9c9f; font-size:8px; font-weight:700; letter-spacing:.24em; }
+.management-heading h1,
+.management-login h1 { margin:0; font-family:"Bodoni MT","Times New Roman",Georgia,serif; font-size:clamp(56px,7vw,104px); font-weight:400; line-height:.78; letter-spacing:-.055em; }
+.management-heading h1 em,
+.management-login h1 em { color:#a9abad; font-weight:400; }
+.management-heading > p { max-width:520px; margin:0; padding-bottom:8px; color:#929498; font-size:13px; line-height:1.75; }
+.management-toolbar { display:grid; grid-template-columns:minmax(190px,1fr) minmax(190px,1fr) auto; gap:12px; padding:18px; border:1px solid rgba(255,255,255,.13); background:#141518; }
+.management-toolbar label,
+.appointment-actions label { display:flex; flex-direction:column; gap:8px; }
+.management-toolbar label > span,
+.appointment-actions label > span { color:#777a7f; font-size:7px; font-weight:700; letter-spacing:.18em; }
+.management-toolbar input,
+.management-toolbar select,
+.appointment-actions select,
+.appointment-actions textarea { width:100%; border:1px solid rgba(255,255,255,.14); outline:none; color:#efefeb; background:#0d0e10; }
+.management-toolbar input,
+.management-toolbar select { min-height:48px; padding:0 14px; }
+.management-toolbar button { display:flex; align-items:center; justify-content:center; gap:10px; align-self:end; min-height:48px; padding:0 22px; border:1px solid #efefeb; color:#101113; background:#efefeb; font-size:8px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; }
+.management-toolbar button:disabled { opacity:.6; }
+.management-metrics { display:grid; grid-template-columns:repeat(4,1fr); margin:22px 0 38px; border-top:1px solid rgba(255,255,255,.13); border-left:1px solid rgba(255,255,255,.13); }
+.management-metrics article { min-height:150px; display:flex; flex-direction:column; padding:22px; border-right:1px solid rgba(255,255,255,.13); border-bottom:1px solid rgba(255,255,255,.13); background:#101114; }
+.management-metrics article > span { display:flex; align-items:center; gap:9px; color:#85878b; font-size:8px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; }
+.management-metrics article strong { margin:auto 0 5px; font-family:"Bodoni MT","Times New Roman",Georgia,serif; font-size:42px; font-weight:400; }
+.management-metrics article small { color:#696b6f; font-size:8px; text-transform:capitalize; }
+.management-agenda { border:1px solid rgba(255,255,255,.13); background:#111215; }
+.management-agenda-head { display:flex; align-items:end; justify-content:space-between; gap:25px; padding:26px 28px; border-bottom:1px solid rgba(255,255,255,.13); }
+.management-agenda-head span { color:#74767a; font-size:7px; font-weight:700; letter-spacing:.18em; }
+.management-agenda-head h2 { margin:7px 0 0; font-family:"Bodoni MT","Times New Roman",Georgia,serif; font-size:29px; font-weight:400; text-transform:capitalize; }
+.management-agenda-head > small { color:#9b9da0; font-size:9px; letter-spacing:.1em; text-transform:uppercase; }
+.management-list { display:grid; }
+.appointment-card { position:relative; display:grid; grid-template-columns:110px minmax(340px,1fr) minmax(280px,.72fr); min-height:190px; border-bottom:1px solid rgba(255,255,255,.12); }
+.appointment-card:last-child { border-bottom:0; }
+.appointment-card:before { content:""; position:absolute; inset:0 auto 0 0; width:3px; background:#b4b6b8; }
+.appointment-card.status-concluido:before { background:#79a77b; }
+.appointment-card.status-cancelado:before,
+.appointment-card.status-faltou:before { background:#9a6662; }
+.appointment-time { display:flex; flex-direction:column; align-items:center; justify-content:center; border-right:1px solid rgba(255,255,255,.12); }
+.appointment-time strong { font-family:"Bodoni MT","Times New Roman",Georgia,serif; font-size:31px; font-weight:400; }
+.appointment-time span { margin-top:8px; color:#696b70; font-size:7px; font-weight:700; letter-spacing:.16em; }
+.appointment-main { display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:center; padding:28px 34px; }
+.appointment-client,
+.appointment-service { display:flex; flex-direction:column; gap:8px; }
+.appointment-client > span,
+.appointment-service > span { display:flex; align-items:center; gap:8px; color:#6f7176; font-size:7px; font-weight:700; letter-spacing:.16em; }
+.appointment-client strong,
+.appointment-service strong { font-size:16px; font-weight:500; }
+.appointment-client a { width:max-content; display:flex; align-items:center; gap:7px; color:#a9aaad; font-size:10px; }
+.appointment-service small { color:#898b90; font-size:10px; }
+.appointment-actions { display:grid; grid-template-columns:1fr; gap:12px; padding:22px; border-left:1px solid rgba(255,255,255,.12); background:#0e0f11; }
+.appointment-actions select { min-height:38px; padding:0 10px; font-size:11px; }
+.appointment-actions textarea { min-height:54px; padding:10px; resize:vertical; font-size:10px; line-height:1.45; }
+.appointment-actions > small { align-self:end; color:#77797d; font-size:7px; letter-spacing:.12em; text-transform:uppercase; }
+.management-empty { min-height:300px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; color:#686a6f; text-align:center; }
+.management-empty svg { width:30px; height:30px; margin-bottom:5px; stroke-width:1.2; }
+.management-empty strong { color:#c1c2c0; font-family:"Bodoni MT","Times New Roman",Georgia,serif; font-size:22px; font-weight:400; }
+.management-empty span { font-size:10px; }
+.management-error { margin:0; padding:14px 28px; color:#e2c2be; border-bottom:1px solid rgba(255,255,255,.12); background:rgba(127,54,47,.22); font-size:11px; }
+.is-spinning { animation:management-spin 1s linear infinite; }
+@keyframes management-spin { to { transform:rotate(360deg); } }
+
+.management-login { display:grid; place-items:center; padding:40px 20px; background:radial-gradient(circle at 70% 25%,#292b2f,transparent 32%),#0b0c0e; }
+.management-login-card { width:min(630px,100%); padding:58px; border:1px solid rgba(255,255,255,.16); background:rgba(15,16,18,.9); box-shadow:0 40px 100px rgba(0,0,0,.45); }
+.management-login-card > img { width:78px; height:78px; margin-bottom:38px; border-radius:50%; box-shadow:0 0 0 1px rgba(255,255,255,.2); }
+.management-login-card > p:not(.management-kicker) { max-width:470px; margin:30px 0; color:#96989c; font-size:13px; line-height:1.7; }
+.management-login-card > a:not(.management-back) { display:flex; align-items:center; justify-content:center; gap:10px; min-height:52px; color:#0d0e10; background:#f1f1ed; font-size:9px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
+.management-login-card .management-back { display:flex; align-items:center; gap:8px; width:max-content; margin-top:24px; color:#86888c; font-size:8px; letter-spacing:.12em; text-transform:uppercase; }
+
+.time-grid button small { display:block; margin-top:3px; font-size:6px; letter-spacing:.08em; text-transform:uppercase; }
+.time-grid button:disabled { color:#aaa; background:#deded9; cursor:not-allowed; text-decoration:line-through; }
+.booking-summary button:disabled { opacity:.65; cursor:wait; }
+
+@media (max-width:980px) {
+  .management-heading { grid-template-columns:1fr; gap:25px; }
+  .management-metrics { grid-template-columns:1fr 1fr; }
+  .appointment-card { grid-template-columns:100px 1fr; }
+  .appointment-actions { grid-column:1/-1; grid-template-columns:180px 1fr auto; border-top:1px solid rgba(255,255,255,.12); border-left:0; }
+}
+
+@media (max-width:640px) {
+  .management-topbar { min-height:68px; padding:0 18px; }
+  .management-topbar > div .management-live { display:none; }
+  .management-brand small { display:none; }
+  .management-shell { padding:45px 16px 65px; }
+  .management-heading h1 { font-size:clamp(52px,16vw,78px); }
+  .management-toolbar { grid-template-columns:1fr; }
+  .management-metrics { grid-template-columns:1fr 1fr; }
+  .management-metrics article { min-height:128px; padding:16px; }
+  .management-metrics article strong { font-size:34px; }
+  .management-agenda-head { align-items:flex-start; flex-direction:column; padding:22px 18px; }
+  .appointment-card { grid-template-columns:82px 1fr; }
+  .appointment-time strong { font-size:25px; }
+  .appointment-main { grid-template-columns:1fr; padding:24px 20px; }
+  .appointment-actions { grid-template-columns:1fr; }
+  .management-login-card { padding:38px 26px; }
+  .management-login h1 { font-size:clamp(50px,15vw,76px); }
+}

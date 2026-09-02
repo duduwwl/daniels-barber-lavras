@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, ArrowRight, CalendarDays, Check, Clock3, Scissors, UserRound } from 'lucide-react';
+import { appointmentApiUrl } from '../api-base';
 import { barbers, services } from '../data';
 import Footer from './Footer';
 import Navbar from './Navbar';
@@ -39,6 +40,8 @@ export default function BookingExperience() {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [confirmed, setConfirmed] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [busyPeriods, setBusyPeriods] = useState<Array<{ start_time: string; duration: number }>>([]);
   const [formError, setFormError] = useState('');
   const [dateError, setDateError] = useState('');
   const [calendarMonth, setCalendarMonth] = useState(() => {
@@ -51,13 +54,24 @@ export default function BookingExperience() {
 
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get('servico');
-    if (requested && services.some((service) => service.id === requested)) setServiceId(requested);
+    if (requested && services.some((service) => service.id === requested)) {
+      queueMicrotask(() => setServiceId(requested));
+    }
   }, []);
 
   useEffect(() => {
-    setTime('');
-    setConfirmed(false);
-  }, [serviceId, barberId, date]);
+    if (!date) return;
+    const controller = new AbortController();
+    const params = new URLSearchParams({ availability: '1', date, barber: barberId });
+    fetch(appointmentApiUrl(`/api/appointments?${params}`), { signal: controller.signal })
+      .then(async (response) => {
+        if (!response.ok) throw new Error();
+        return response.json() as Promise<{ busy?: Array<{ start_time: string; duration: number }> }>;
+      })
+      .then((data) => setBusyPeriods(data.busy ?? []))
+      .catch((error) => { if (error instanceof Error && error.name !== 'AbortError') setBusyPeriods([]); });
+    return () => controller.abort();
+  }, [barberId, date]);
 
   const calendarDays = useMemo(() => {
     const year = calendarMonth.getFullYear();
@@ -103,7 +117,15 @@ export default function BookingExperience() {
 
   function chooseBarber(id: string) {
     setBarberId(id);
+    setTime('');
+    setConfirmed(false);
     document.querySelector('#reservar')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function chooseService(id: string) {
+    setServiceId(id);
+    setTime('');
+    setConfirmed(false);
   }
 
   function chooseDate(value: string) {
@@ -114,6 +136,8 @@ export default function BookingExperience() {
     }
     setDateError('');
     setDate(value);
+    setTime('');
+    setConfirmed(false);
     const selected = parseLocalDate(value);
     setCalendarMonth(new Date(selected.getFullYear(), selected.getMonth(), 1));
   }
@@ -122,14 +146,42 @@ export default function BookingExperience() {
     setCalendarMonth((current) => new Date(current.getFullYear(), current.getMonth() + direction, 1));
   }
 
-  function confirmBooking(event: FormEvent) {
+  async function confirmBooking(event: FormEvent) {
     event.preventDefault();
     if (!date || !time || !name.trim() || !phone.trim()) {
       setFormError('Preencha seu nome, WhatsApp, data e horário para continuar.');
       return;
     }
     setFormError('');
-    setConfirmed(true);
+    setSubmitting(true);
+    try {
+      const response = await fetch(appointmentApiUrl(), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customerName: name,
+          customerPhone: phone,
+          serviceId,
+          barberId,
+          appointmentDate: date,
+          startTime: time,
+        }),
+      });
+      const data = await response.json() as { error?: string };
+      if (!response.ok) throw new Error(data.error || 'Não foi possível confirmar o horário.');
+      setConfirmed(true);
+    } catch (error) {
+      setFormError(error instanceof Error ? error.message : 'Não foi possível confirmar o horário.');
+      if (date) {
+        const params = new URLSearchParams({ availability: '1', date, barber: barberId });
+        fetch(appointmentApiUrl(`/api/appointments?${params}`))
+          .then(async (response) => (await response.json()) as { busy?: Array<{ start_time: string; duration: number }> })
+          .then((data) => setBusyPeriods(data.busy ?? []))
+          .catch(() => undefined);
+      }
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   function downloadIcs() {
@@ -204,7 +256,7 @@ export default function BookingExperience() {
                 <div className="choice-grid service-choices">
                   {services.map((service) => (
                     <label key={service.id} className={serviceId === service.id ? 'checked' : ''}>
-                      <input type="radio" name="service" value={service.id} checked={serviceId === service.id} onChange={() => setServiceId(service.id)} />
+                      <input type="radio" name="service" value={service.id} checked={serviceId === service.id} onChange={() => chooseService(service.id)} />
                       <span><strong>{service.short}</strong><small>{service.duration} min</small></span><i><Check size={15} aria-hidden="true" /></i>
                     </label>
                   ))}
@@ -244,7 +296,14 @@ export default function BookingExperience() {
               </fieldset>
               <fieldset>
                 <legend><span className="step-icon"><Clock3 size={14} aria-hidden="true" /></span> Escolha o horário</legend>
-                {date ? <div className="time-grid">{times.map((slot) => <button type="button" key={slot} className={time === slot ? 'active' : ''} onClick={() => setTime(slot)}>{slot}</button>)}</div> : <p className="empty-slots">Selecione um dia para ver os horários disponíveis.</p>}
+                {date ? <div className="time-grid">{times.map((slot) => {
+                  const slotStart = Number(slot.slice(0, 2)) * 60 + Number(slot.slice(3));
+                  const unavailable = busyPeriods.some((period) => {
+                    const busyStart = Number(period.start_time.slice(0, 2)) * 60 + Number(period.start_time.slice(3));
+                    return slotStart < busyStart + period.duration && busyStart < slotStart + selectedService.duration;
+                  });
+                  return <button type="button" key={slot} disabled={unavailable} className={time === slot ? 'active' : ''} onClick={() => setTime(slot)}>{slot}{unavailable ? <small>ocupado</small> : null}</button>;
+                })}</div> : <p className="empty-slots">Selecione um dia para ver os horários disponíveis.</p>}
               </fieldset>
               <fieldset>
                 <legend><span className="step-icon"><UserRound size={14} aria-hidden="true" /></span> Seus dados</legend>
@@ -255,7 +314,7 @@ export default function BookingExperience() {
               </fieldset>
               <div className="booking-summary">
                 <div><small>SEU AGENDAMENTO</small><strong>{selectedService.short} com {selectedBarber.name}</strong><span>{date ? formatLongDate(date) : 'Escolha uma data'}{time ? `, às ${time}` : ''}</span></div>
-                <button type="submit">Confirmar horário <ArrowRight size={16} aria-hidden="true" /></button>
+                <button type="submit" disabled={submitting}>{submitting ? 'Confirmando…' : 'Confirmar horário'} <ArrowRight size={16} aria-hidden="true" /></button>
               </div>
               {formError && <p className="form-error" role="alert">{formError}</p>}
             </>
@@ -269,7 +328,7 @@ export default function BookingExperience() {
                 <a href={googleCalendarUrl} target="_blank" rel="noreferrer">Adicionar ao Google Agenda <span>↗</span></a>
                 <button type="button" onClick={downloadIcs}>Apple / Outlook (.ics) <span>↓</span></button>
               </div>
-              <p className="calendar-note">Os dados de contato ficam apenas nesta tela. Use o calendário para guardar seu compromisso.</p>
+              <p className="calendar-note">Seu horário foi enviado para a agenda da equipe. Use o calendário para guardar o compromisso no seu aparelho.</p>
               <button type="button" className="new-booking" onClick={() => setConfirmed(false)}>← Alterar agendamento</button>
             </div>
           )}

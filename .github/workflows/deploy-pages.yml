@@ -34,7 +34,7 @@ jobs:
       - name: Build static site
         env:
           NEXT_PUBLIC_BASE_PATH: /daniels-barber-lavras
-        run: pnpm exec next build
+        run: pnpm build:pages
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
