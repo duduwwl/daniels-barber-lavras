@@ -256,6 +256,37 @@ footer { display:grid; grid-template-columns:1.2fr .8fr .8fr; gap:50px; padding:
 .footer-hours span { font:400 11px Georgia,serif; }
 .footer-bottom { grid-column:1/-1; display:flex; justify-content:space-between; margin-top:30px; padding-top:24px; border-top:1px solid var(--line-light); color:#5e5a55; font-size:8px; letter-spacing:.1em; text-transform:uppercase; }
 .footer-bottom a { color:#9a9188; }
+.manager-login-fab {
+  position:fixed;
+  z-index:44;
+  right:20px;
+  bottom:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  min-height:46px;
+  padding:0 17px;
+  color:#ecece8;
+  border:1px solid rgba(255,255,255,.24);
+  border-radius:999px;
+  background:rgba(10,10,10,.88);
+  box-shadow:0 14px 38px rgba(0,0,0,.38);
+  backdrop-filter:blur(12px);
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  transition:color .2s, background .2s, border-color .2s, transform .2s;
+}
+.manager-login-fab:hover,
+.manager-login-fab:focus-visible {
+  color:#0a0a0a;
+  border-color:#f1f1ed;
+  background:#f1f1ed;
+  transform:translateY(-2px);
+}
+.manager-login-fab svg { flex:0 0 auto; stroke-width:1.6; }
 
 @keyframes hero-rise { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:none} }
 @keyframes hero-fade { from{opacity:0;transform:scale(1.04)} to{opacity:1;transform:none} }
@@ -1219,4 +1250,21 @@ legend { gap:11px; font-size:15px; }
   .appointment-actions { grid-template-columns:1fr; }
   .management-login-card { padding:38px 26px; }
   .management-login h1 { font-size:clamp(50px,15vw,76px); }
+}
+
+@media (max-width:560px) {
+  .manager-login-fab {
+    right:14px;
+    bottom:14px;
+    width:48px;
+    min-height:48px;
+    padding:0;
+  }
+  .manager-login-fab span {
+    position:absolute;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+    clip:rect(0 0 0 0);
+  }
 }
